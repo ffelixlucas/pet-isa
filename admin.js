@@ -10,13 +10,32 @@ document.addEventListener('DOMContentLoaded', function () {
         const productDescription = document.getElementById('productDescription').value;
         const productImage = document.getElementById('productImage').value;
 
-        // Exibe os dados no console (para teste local)
-        console.log('Nome:', productName);
-        console.log('Preço:', productPrice);
-        console.log('Descrição:', productDescription);
-        console.log('Imagem:', productImage);
+        // Cria um objeto representando o novo produto
+        const newProduct = {
+            name: productName,
+            price: parseFloat(productPrice),
+            description: productDescription,
+            image: productImage
+        };
 
-        // Limpa o formulário
-        productForm.reset();
+        // Envia os dados para o backend
+        addProductToBackend(newProduct);
     });
 });
+
+function addProductToBackend(product) {
+    fetch('http://localhost:3000/api/addProduct', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Exibe a resposta do servidor no console
+        // Atualiza o catálogo na página index.html
+        loadPage('index');
+    })
+    .catch(error => console.error('Erro ao adicionar produto:', error));
+}
