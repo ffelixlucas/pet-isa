@@ -21,21 +21,26 @@ document.addEventListener('DOMContentLoaded', function () {
         // Envia os dados para o backend
         addProductToBackend(newProduct);
     });
-});
 
-function addProductToBackend(product) {
-    fetch('http://localhost:3000/api/addProduct', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); // Exibe a resposta do servidor no console
-        // Atualiza o catálogo na página index.html
-        loadPage('index');
-    })
-    .catch(error => console.error('Erro ao adicionar produto:', error));
-}
+    function addProductToBackend(product) {
+        fetch('http://localhost:3000/api/addProduct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(product),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Produto adicionado com sucesso
+                console.log(data.message);
+                // Aqui você pode fazer algo adicional se necessário
+            } else {
+                // O servidor relatou um erro
+                console.error(data.message);
+            }
+        })
+        .catch(error => console.error('Erro ao adicionar produto:', error));
+    }
+});

@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     const contentContainer = document.getElementById('content');
-    const searchLink = document.getElementById('search-link');
 
+    // Função para carregar a página
     function loadPage(pageName) {
         fetch(`${pageName}.html`)
             .then(response => response.text())
             .then(html => {
                 contentContainer.innerHTML = html;
                 if (pageName === 'index') {
-                    initializeCatalog();
+                    loadCatalog();
                 } else if (pageName === 'carrinho') {
                     initializeCart();
                 }
@@ -16,55 +16,44 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Erro ao carregar a página:', error));
     }
 
-    function initializeCatalog() {
-        const catalogContainer = document.getElementById('content');
-
-        fetch('http://localhost:3000/api/catalog')
-            .then(response => response.json())
-            .then(catalogData => {
-                catalogData.forEach((product, index) => {
+    // Função para carregar o catálogo
+    function loadCatalog() {
+        fetch('http://localhost:8080/api/catalog')
+          .then(response => response.json())
+          .then(catalogData => {
+              catalogData.forEach((product, index) => {
                     const productItem = document.createElement('div');
                     productItem.classList.add('product-item');
                     productItem.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}">
-                        <h3>${product.name}</h3>
-                        <p>Preço: R$ ${product.price.toFixed(2)}</p>
-                        <button class="view-details-button" data-index="${index}">Ver Detalhes</button>
-                    `;
-
-                    catalogContainer.appendChild(productItem);
-
-                    const viewDetailsButton = productItem.querySelector('.view-details-button');
-                    viewDetailsButton.addEventListener('click', function () {
-                        openProductDetailsModal(catalogData[index]);
-                    });
+                            <img src="${product.image}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>Preço: R$ ${product.price.toFixed(2)}</p>
+                            <button class="view-details-button" data-index="${index}">Ver Detalhes</button>
+                        `;
+    
+                    contentContainer.appendChild(productItem);
                 });
-            })
-            .catch(error => console.error('Erro ao obter catálogo:', error));
+          })
+          .catch(error => console.error('Erro ao obter catálogo:', error));
     }
 
-    // Funções anteriores...
+    // Exemplo de como você pode adicionar um ouvinte de evento para o botão "Ver Detalhes"
+    contentContainer.addEventListener('click', function (event) {
+        if (event.target.classList.contains('view-details-button')) {
+            const index = event.target.dataset.index;
+            loadProductDetails(catalogData[index]); // Substitua 'catalogData' pela variável correta que contém os dados do catálogo
+        }
+    });
 
-    // Novo código adicionado abaixo
-    function openProductDetailsModal(product) {
-        const modal = document.getElementById('product-details-modal');
-        const addToCartButton = document.getElementById('add-to-cart');
-
-        // Adicione o código para exibir os detalhes do produto no modal
+    // Função para carregar os detalhes do produto em um modal
+    function loadProductDetails(product) {
+        // Lógica para exibir os detalhes do produto no modal
         // ...
 
-        // Adicione um ouvinte de evento para o botão "Adicionar ao Carrinho"
-        addToCartButton.addEventListener('click', function () {
-            // Adicione o código para adicionar o produto ao carrinho
-            // ...
-
-            // Feche o modal após adicionar ao carrinho
-            closeModal();
-        });
+        // Exemplo: Abre um modal com os detalhes do produto
+        console.log('Detalhes do Produto:', product);
     }
 
-    function closeModal() {
-        const modal = document.getElementById('product-details-modal');
-        modal.style.display = 'none';
-    }
+    // Inicialmente, carrega a página inicial
+    loadPage('index');
 });

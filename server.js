@@ -1,7 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // Adicione esta linha
 const app = express();
-const port = 3000;
+const port = 8000; // Altere esta linha
+
+// Middleware para permitir CORS
+app.use(cors()); // Adicione esta linha
 
 // Middleware para parsear JSON no corpo das requisições
 app.use(bodyParser.json());
