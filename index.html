@@ -4,24 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu Pet Shop</title>
-    <!-- Adicione aqui os links para seus arquivos CSS e JavaScript -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Seu Pet Shop</h1>
-        <!-- Adicione um menu de navegação, se necessário -->
+        <nav>
+            <ul>
+                <li><a href="#" id="search-link">Buscar</a></li>
+                <li><a href="index.html">Catálogo</a></li>
+                <li><a href="carrinho.html">Carrinho</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
-        <section id="catalog">
-            <h2>Catálogo de Produtos</h2>
-            <!-- Adicione aqui os produtos do seu catálogo -->
-            <!-- Cada produto pode ser um bloco de HTML com uma imagem, descrição, preço, etc. -->
+        <section id="content">
+            <!-- Aqui será carregado o conteúdo dinâmico da página -->
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Seu Pet Isa. Todos os direitos reservados.</p>
-    </footer>
+    <div class="modal" id="product-details-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-product-details">&times;</span>
+            <h2>Detalhes do Produto</h2>
+            <!-- Conteúdo dinâmico do pop-up de detalhes do produto -->
+            <button id="add-to-cart">Adicionar ao Carrinho</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
